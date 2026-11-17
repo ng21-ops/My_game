@@ -51,8 +51,11 @@ function startGame() {
         }
 
         if (event.key.toLowerCase() === "p" && !gameOver) {
-            paused = !paused;
-        }
+    paused = !paused;
+
+    document.getElementById("pauseButton").textContent =
+        paused ? "RESUME" : "PAUSE";
+}
     };
 
     document.onkeyup = function(event) {
