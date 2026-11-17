@@ -1,6 +1,6 @@
 
 const startButton = document.getElementById("startButton");
-const gameScreen = document.querySelector(".game-screen");
+const gameScreen = document.querySelector(".game-screen"); 
 
 startButton.addEventListener("click", function() {
     gameScreen.innerHTML = `
