@@ -12,8 +12,8 @@ startButton.addEventListener("click", function() {
         <canvas id="gameCanvas" width="600" height="400"></canvas>
 
         <p>Move: W A S D | Shoot: SPACE | Pause: P</p>
-        <button id="pauseButton">PAUSE</button>
-    `;
+<button id="pauseButton">PAUSE</button>
+<button id="restartButton">RESTART GAME</button>    `;
 
     startGame();
 });
