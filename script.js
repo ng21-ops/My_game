@@ -204,9 +204,9 @@ function startGame() {
     }
 
     document.getElementById("pauseButton").addEventListener("click", function() {
-        paused = !paused;
-        this.textContent = paused ? "RESUME" : "PAUSE";
-    });
+    paused = !paused;
+    this.textContent = paused ? "RESUME" : "PAUSE";
+});
 
     gameLoop();
 }
