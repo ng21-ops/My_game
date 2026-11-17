@@ -172,14 +172,18 @@ function startGame() {
             ctx.font = "35px Arial";
             ctx.fillText("PAUSED", 220, 200);
         }
+if (gameOver) {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+    ctx.fillRect(0, 0, 600, 400);
 
-        if (gameOver) {
-            ctx.fillStyle = "white";
-            ctx.font = "35px Arial";
-            ctx.fillText("GAME OVER", 190, 190);
-            ctx.font = "20px Arial";
-            ctx.fillText("Final Score: " + score, 220, 230);
-        }
+    ctx.fillStyle = "#ff3366";
+    ctx.font = "40px Arial";
+    ctx.fillText("GAME OVER", 175, 180);
+
+    ctx.fillStyle = "white";
+    ctx.font = "22px Arial";
+    ctx.fillText("Final Score: " + score, 210, 220);
+}
     }
 
     function gameLoop() {
