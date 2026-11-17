@@ -210,6 +210,11 @@ if (gameOver) {
     document.getElementById("pauseButton").addEventListener("click", function() {
     paused = !paused;
     this.textContent = paused ? "RESUME" : "PAUSE";
+        document.getElementById("restartButton").addEventListener("click", function() {
+    document.onkeydown = null;
+    document.onkeyup = null;
+    startGame();
+});
 });
 
     gameLoop();
