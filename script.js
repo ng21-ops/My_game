@@ -145,9 +145,15 @@ for (let enemy of enemies) {
     enemy.y += enemy.speed;
 
     // Solo quitar vida si toca la nave o pasa el límite
-    if (collision(player, enemy) || enemy.y > 400) {
-        lives--;
-        continue;
+    if (collision(player, enemy)) {
+    lives--;
+    continue;
+}
+
+// Si el enemigo llega al final, simplemente desaparece
+if (enemy.y > 400) {
+    continue;
+}
     }
 
     remainingEnemies.push(enemy);
