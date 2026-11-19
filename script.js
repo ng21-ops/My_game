@@ -95,45 +95,67 @@ function startGame() {
                a.y + a.height > b.y;
     }
 
-    function update() {
-        if (keys["w"] && player.y > 0) player.y -= player.speed;
-        if (keys["s"] && player.y < 365) player.y += player.speed;
-        if (keys["a"] && player.x > 0) player.x -= player.speed;
-        if (keys["d"] && player.x < 565) player.x += player.speed;
+   
+function update() {
+    // Movimiento de la nave
+    if (keys["w"] && player.y > 0) player.y -= player.speed;
+    if (keys["s"] && player.y < 365) player.y += player.speed;
+    if (keys["a"] && player.x > 0) player.x -= player.speed;
+    if (keys["d"] && player.x < 565) player.x += player.speed;
 
-        bullets.forEach(b => b.y -= 7);
-        bullets = bullets.filter(b => b.y > -20);
+    // Movimiento de los disparos
+    bullets.forEach(bullet => {
+        bullet.y -= 7;
+    });
 
-        enemies.forEach(e => e.y += e.speed);
+    // Revisar enemigos
+    let remainingEnemies = [];
 
-        enemies.forEach(enemy => {
-            if (collision(player, enemy)) {
-                lives--;
-                enemy.y = 500;
+    for (let enemy of enemies) {
+        let destroyed = false;
+
+        // Primero revisar si una bala golpeó al enemigo
+        for (let i = 0; i < bullets.length; i++) {
+            if (collision(bullets[i], enemy)) {
+                score += 100;
+                bullets.splice(i, 1);
+                destroyed = true;
+                break;
             }
-
-bullets.forEach(bullet => {
-   if (collision(player, enemy)) {
-    lives--;
-    enemy.y = 500;
-}
-});
-if (enemy.y > 400) {
-    lives--;
-    enemy.y = 500;
-}
-        });
-
-        enemies = enemies.filter(e => e.y < 450);
-        bullets = bullets.filter(b => b.y > -20);
-
-        document.getElementById("score").textContent = score;
-        document.getElementById("lives").textContent = lives;
-
-        if (lives <= 0) {
-            gameOver = true;
         }
+
+        // Si fue destruido, no puede quitar vidas
+        if (destroyed) {
+            continue;
+        }
+
+        // Movimiento del enemigo
+        enemy.y += enemy.speed;
+
+        // Solo pierde vida si toca la nave
+        // o llega al final de la pantalla
+        if (collision(player, enemy) || enemy.y > 400) {
+            lives--;
+            continue;
+        }
+
+        remainingEnemies.push(enemy);
     }
+
+    enemies = remainingEnemies;
+
+    // Eliminar disparos que salieron de la pantalla
+    bullets = bullets.filter(bullet => bullet.y > -20);
+
+    // Actualizar información
+    document.getElementById("score").textContent = score;
+    document.getElementById("lives").textContent = lives;
+
+    if (lives <= 0) {
+        gameOver = true;
+    }
+}
+
 
     function draw() {
         ctx.fillStyle = "#08051c";
