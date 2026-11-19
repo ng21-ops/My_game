@@ -109,40 +109,52 @@ function update() {
     });
 
     // Revisar enemigos
-    let remainingEnemies = [];
+    
+let remainingEnemies = [];
 
-    for (let enemy of enemies) {
-        let destroyed = false;
+for (let enemy of enemies) {
+    let destroyed = false;
 
-        // Primero revisar si una bala golpeó al enemigo
-        for (let i = 0; i < bullets.length; i++) {
-            if (collision(bullets[i], enemy)) {
-                score += 100;
-                bullets.splice(i, 1);
-                destroyed = true;
-                break;
-            }
+    // Revisar todos los disparos
+    for (let i = bullets.length - 1; i >= 0; i--) {
+        let bullet = bullets[i];
+
+        // Comprobar colisión antes y después del movimiento
+        if (
+            collision(bullet, enemy) ||
+            (
+                bullet.x < enemy.x + enemy.width &&
+                bullet.x + bullet.width > enemy.x &&
+                bullet.y + 7 < enemy.y + enemy.height &&
+                bullet.y + bullet.height >= enemy.y
+            )
+        ) {
+            score += 100;
+            bullets.splice(i, 1);
+            destroyed = true;
+            break;
         }
-
-        // Si fue destruido, no puede quitar vidas
-        if (destroyed) {
-            continue;
-        }
-
-        // Movimiento del enemigo
-        enemy.y += enemy.speed;
-
-        // Solo pierde vida si toca la nave
-        // o llega al final de la pantalla
-        if (collision(player, enemy) || enemy.y > 400) {
-            lives--;
-            continue;
-        }
-
-        remainingEnemies.push(enemy);
     }
 
-    enemies = remainingEnemies;
+    // Si recibió un disparo, desaparece sin quitar vidas
+    if (destroyed) {
+        continue;
+    }
+
+    // Mover enemigo
+    enemy.y += enemy.speed;
+
+    // Solo quitar vida si toca la nave o pasa el límite
+    if (collision(player, enemy) || enemy.y > 400) {
+        lives--;
+        continue;
+    }
+
+    remainingEnemies.push(enemy);
+}
+
+enemies = remainingEnemies;
+
 
     // Eliminar disparos que salieron de la pantalla
     bullets = bullets.filter(bullet => bullet.y > -20);
