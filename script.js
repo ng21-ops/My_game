@@ -112,18 +112,16 @@ function startGame() {
                 enemy.y = 500;
             }
 
-            bullets.forEach(bullet => {
-                if (collision(bullet, enemy)) {
-                    score += 100;
-                    enemy.y = 500;
-                    bullet.y = -50;
-                }
-            });
-
-            if (enemy.y > 400) {
-                lives--;
-                enemy.y = 500;
-            }
+bullets.forEach(bullet => {
+   if (collision(player, enemy)) {
+    lives--;
+    enemy.y = 500;
+}
+});
+if (enemy.y > 400) {
+    lives--;
+    enemy.y = 500;
+}
         });
 
         enemies = enemies.filter(e => e.y < 450);
